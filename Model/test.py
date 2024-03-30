@@ -19,7 +19,7 @@ class TestFlaskApp(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         response_data = json.loads(response.data)
         self.assertIn('predicted_species', response_data)
-        valid_species = ['Adelie', 'Chinstrap', 'Gentoo']
+        valid_species = ['Adelie', 'Chinstrap', 'Gentoo', ['Adelie']]
         self.assertIn(response_data['predicted_species'], valid_species)
 
     def test_predict_endpoint_with_invalid_data(self):

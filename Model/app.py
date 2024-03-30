@@ -1,15 +1,12 @@
 from flask import Flask, jsonify, request
 import joblib
 import pandas as pd
-from sklearn.preprocessing import StandardScaler
 
 app = Flask(__name__)
 
 # Load the trained model
 model = joblib.load('logistic_regression_model.joblib')
-
-# Initialize the scaler (make sure to use the same scaler used during training)
-scaler = StandardScaler()
+scaler = joblib.load('scaler.joblib')
 
 
 # Endpoint for making predictions
@@ -17,8 +14,14 @@ scaler = StandardScaler()
 def predict():
     # Get the JSON data sent in the request
     data = request.json
+    if 'body_mass_g' not in data or data['body_mass_g'] is None:
+        return jsonify({'message': 'Missing data: body_mass_g'}), 400
     # Convert JSON data to DataFrame
     new_data = pd.DataFrame(data, index=[0])
+    columns_order = [
+        'bill_length_mm', 'bill_depth_mm', 'flipper_length_mm', 'body_mass_g']
+    new_data = new_data[columns_order]
+
     # Scale the new data using the same scaler used during training
     new_data_scaled = scaler.transform(new_data)
     # Make predictions

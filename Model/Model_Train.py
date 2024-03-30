@@ -40,3 +40,4 @@ print(f"Model accuracy: {accuracy:.2f}")
 
 # Save the trained model
 joblib.dump(model, 'logistic_regression_model.joblib')
+joblib.dump(scaler, 'scaler.joblib')
