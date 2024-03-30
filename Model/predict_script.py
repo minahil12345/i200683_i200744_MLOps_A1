@@ -1,5 +1,5 @@
 import requests
-import json
+
 
 # Define the JSON data to send
 data = {
