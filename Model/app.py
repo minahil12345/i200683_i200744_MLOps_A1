@@ -6,7 +6,7 @@ from sklearn.preprocessing import StandardScaler
 app = Flask(__name__)
 
 # Load the trained model
-model = joblib.load('Model/logistic_regression_model.joblib')
+model = joblib.load('logistic_regression_model.joblib')
 
 # Initialize the scaler (make sure to use the same scaler used during training)
 scaler = StandardScaler()
