@@ -1,0 +1,29 @@
+name: Code Quality Check
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      - name: Install dependencies
+        run: pip install flake8
+      - name: Run flake8
+        run: flake8 .
+      - name: Create Pull Request if successful
+        if: ${{ success() }}
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
+          title: "Code quality check passed - Auto-generated PR from dev branch"
+          body: "This pull request is automatically generated after a successful code quality check on the dev branch."
