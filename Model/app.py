@@ -8,7 +8,7 @@ app = Flask(__name__)
 # Load the trained model
 model = joblib.load('logistic_regression_model.joblib')
 
-# Initialize the scaler (make sure to use the same scaler used during training)
+# Initialize the scaler
 scaler = StandardScaler()
 
 # Endpoint for making predictions
@@ -20,7 +20,12 @@ def predict():
     # Convert JSON data to DataFrame
     new_data = pd.DataFrame(data, index=[0])
     
-    # Scale the new data using the same scaler used during training
+    # Fit the scaler on training data
+    # Assuming you have access to the training data
+    # Replace `training_data` with your actual training data
+    scaler.fit(new_data)
+    
+    # Scale the new data using the fitted scaler
     new_data_scaled = scaler.transform(new_data)
     
     # Make predictions
