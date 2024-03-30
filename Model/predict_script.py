@@ -12,5 +12,15 @@ data = {
 # Send POST request to Flask app
 response = requests.post("http://localhost:5000/predict", json=data)
 
-# Print the response
-print(response.json())
+# Check if response is successful
+if response.status_code == 200:
+    try:
+        # Try to parse JSON response
+        json_response = response.json()
+        print("Predicted species:", json_response['predicted_species'])
+    except json.JSONDecodeError:
+        # If JSON decoding fails, print raw response
+        print("Raw response:", response.text)
+else:
+    # Print error message if request was unsuccessful
+    print("Error:", response.text)
